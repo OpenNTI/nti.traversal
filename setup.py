@@ -42,12 +42,15 @@ setup(
 	tests_require=TESTS_REQUIRE,
 	install_requires=[
 		'setuptools',
+		'pyramid',
+		'zope.container',
 		'zope.component',
 		'zope.interface',
 		'zope.location',
 		'zope.security',
 		'zope.traversing',
-		'nti.links'
+		'nti.common',
+		'nti.dataserver.core'
 	],
 	extras_require={
 		'test': TESTS_REQUIRE,

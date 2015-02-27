@@ -13,10 +13,10 @@ from nti.testing.layers import ConfiguringLayerMixin
 
 import zope.testing.cleanup
 
-class ContentfragmentsTestLayer(ZopeComponentLayer,
+class TraversalTestLayer(ZopeComponentLayer,
 								ConfiguringLayerMixin):
 
-	set_up_packages = ('nti.contentfragments',)
+	set_up_packages = ('nti.traversal',)
 
 	@classmethod
 	def setUp(cls):
@@ -38,5 +38,5 @@ class ContentfragmentsTestLayer(ZopeComponentLayer,
 
 import unittest
 
-class ContentfragmentsLayerTest(unittest.TestCase):
-	layer = ContentfragmentsTestLayer
+class TraversalLayerTest(unittest.TestCase):
+	layer = TraversalTestLayer

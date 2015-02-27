@@ -4,7 +4,7 @@
 Patch zope.traversing.api.traverseName and zope.traversing.adapters.DefaultTraverser
 to be robust against unicode strings in attr names. Do this
 in-place to be sure that even if it's already imported (which is likely) the patches
-hold
+hold (traversing_patch_on_import)
 
 .. $Id$
 """
@@ -50,6 +50,7 @@ def _patched_traversePathElement(obj, name, further_path, default=_marker,
 		info = _nti_exc_info()
 		raise LocationError( "Unable to traverse due to attempt to access attribute as unicode.",
 							  obj, name ), None, info[2]
+
 _patched_traversing = False
 def _patch_traversing():
 
@@ -115,12 +116,10 @@ def _patch_traversing():
 
 _patch_traversing()
 
-del _zinterface
 del _zapi
 del _zadapters
+del _zinterface
 del _zinterfaces
-
-# del logger
 
 def patch():
 	pass
