@@ -49,8 +49,7 @@ setup(
 		'zope.location',
 		'zope.security',
 		'zope.traversing',
-		'nti.common',
-		'nti.dataserver.core'
+		'nti.common'
 	],
 	extras_require={
 		'test': TESTS_REQUIRE,

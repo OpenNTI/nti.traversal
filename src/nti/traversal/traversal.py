@@ -16,14 +16,11 @@ del traversing_patch
 from zope import component
 
 from zope.location import LocationIterator
+from zope.location.interfaces import IContained
 from zope.location.interfaces import ILocationInfo
 
 from pyramid.traversal import _join_path_tuple
 from pyramid.traversal import find_interface as _p_find_interface
-
-from nti.dataserver.core.interfaces import ILink
-from nti.dataserver.core.interfaces import IDataserver
-from nti.dataserver.core.interfaces import IZContained
 
 def resource_path( res ):
 	# This function is somewhat more flexible than Pyramid's, and
@@ -85,7 +82,7 @@ def is_valid_resource_path( target ):
 	return 	isinstance(target, basestring) and  (target.startswith('/') or \
 			target.startswith('http://') or target.startswith('https://'))
 
-def find_nearest_site(context):
+def find_nearest_site(context, root=None, ignore=None):
 	"""
 	Find the nearest :class:`loc_interfaces.ISite` in the lineage of `context`.
 	:param context: The object whose lineage to search. If this object happens to be an
@@ -104,7 +101,7 @@ def find_nearest_site(context):
 			nearest_site = loc_info.getNearestSite()
 		except (TypeError, AttributeError):
 			# Nothing. Assume the main site/root
-			nearest_site = component.getUtility( IDataserver ).root
+			nearest_site = root
 	else:
 		# Located. Better be able to get a site, otherwise we have a
 		# broken chain.
@@ -112,9 +109,9 @@ def find_nearest_site(context):
 			nearest_site = loc_info.getNearestSite()
 		except TypeError:
 			# Convertible, but not located correctly.
-			if not ILink.providedBy( context ):
+			if ignore is None or not ignore.providedBy( context ):
 				raise
-			nearest_site = component.getUtility( IDataserver ).root
+			nearest_site = root
 
 	return nearest_site
 
@@ -165,7 +162,7 @@ class adapter_request(adapter):
 		# Some sanity checks on the returned object
 		__traceback_info__ = result, self.context, result.__parent__, result.__name__
 		
-		assert IZContained.providedBy( result )
+		assert IContained.providedBy( result )
 		assert result.__parent__ is not None
 		
 		if result.__name__ is None:
