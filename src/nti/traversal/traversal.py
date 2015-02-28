@@ -84,10 +84,10 @@ def is_valid_resource_path( target ):
 
 def find_nearest_site(context, root=None, ignore=None):
 	"""
-	Find the nearest :class:`loc_interfaces.ISite` in the lineage of `context`.
-	:param context: The object whose lineage to search. If this object happens to be an
-		:class:`.ILink`, then this attempts to take into account
-		the target as well.
+	Find the nearest :class:`ISite` in the lineage of `context`.
+	:param context: The object whose lineage to search. If this object happens to 
+		implement the interface specified by :param ignore,
+		then this attempts to take into account the target as well.
 	:return: The nearest site. Possibly the root site.
 	"""
 	__traceback_info__ = context, getattr( context, '__parent__', None )
