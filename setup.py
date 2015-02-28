@@ -34,6 +34,8 @@ setup(
 		'Operating System :: OS Independent',
 		'Programming Language :: Python :: 2',
 		'Programming Language :: Python :: 2.7',
+		'Programming Language :: Python :: 3.3',
+		'Programming Language :: Python :: 3.4',
 		'Programming Language :: Python :: Implementation :: CPython'
 	],
 	packages=find_packages('src'),
@@ -42,7 +44,6 @@ setup(
 	tests_require=TESTS_REQUIRE,
 	install_requires=[
 		'setuptools',
-		'pyramid',
 		'zope.container',
 		'zope.component',
 		'zope.interface',
