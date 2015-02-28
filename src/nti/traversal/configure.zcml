@@ -9,4 +9,8 @@
 	<include package="zope.component" />
 	<include package="zope.security" />
 
+	<include package="zope.location" />
+	<include package="zope.container" />
+	<include package="zope.traversing" />
+
 </configure>
