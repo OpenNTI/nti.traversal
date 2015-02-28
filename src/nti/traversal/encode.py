@@ -9,18 +9,24 @@ __docformat__ = "restructuredtext en"
 
 logger = __import__('logging').getLogger(__name__)
 
-from nti.common._compat import text_type
-from nti.common._compat import binary_type
-
 try:
-	from urllib.parse import quote as _url_quote
-except ImportError: # PY3
-	from urllib import quote as _url_quote
+	from pyramid.encode import url_quote
+	url_quote = url_quote # pylint
 
-def url_quote(val, safe=''):
-	cls = val.__class__
-	if cls is text_type:
-		val = val.encode('utf-8')
-	elif cls is not binary_type:
-		val = str(val).encode('utf-8')
-	return _url_quote(val, safe=safe)
+except ImportError:
+	
+	from nti.common._compat import text_type
+	from nti.common._compat import binary_type
+	
+	try:
+		from urllib.parse import quote as _url_quote
+	except ImportError: # PY3
+		from urllib import quote as _url_quote
+	
+	def url_quote(val, safe=''):
+		cls = val.__class__
+		if cls is text_type:
+			val = val.encode('utf-8')
+		elif cls is not binary_type:
+			val = str(val).encode('utf-8')
+		return _url_quote(val, safe=safe)

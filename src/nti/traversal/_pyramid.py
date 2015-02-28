@@ -15,6 +15,7 @@ try:
 	
 	p_find_interface = p_find_interface # pylint
 	p_join_path_tuple = p_join_path_tuple
+
 except ImportError:
 	
 	from nti.common._compat import PY3
@@ -23,6 +24,7 @@ except ImportError:
 	from nti.common._compat import binary_type
 	
 	from .encode import url_quote
+	
 	from .location import find_interface as p_find_interface
 
 	_segment_cache = {} 
