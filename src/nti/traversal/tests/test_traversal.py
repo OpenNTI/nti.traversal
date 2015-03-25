@@ -45,7 +45,6 @@ class TestTraversal(TraversalLayerTest):
 		assert_that( resource_path( Leaf() ),
 					 is_( '/Middle/%E2%80%99' ) )
 
-
 	def test_traversal_no_root(self):
 
 		@interface.implementer(ILocation)

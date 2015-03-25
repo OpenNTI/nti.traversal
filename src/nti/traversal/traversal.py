@@ -215,7 +215,6 @@ class DefaultAdapterTraversable(_DefaultTraversable):
 
 	You may subclass this traversable or register it in ZCML
 	directly. It is usable both with and without a request.
-
 	"""
 
 	def __init__( self, context, request=None ):

@@ -34,7 +34,6 @@ class TraversalTestLayer(ZopeComponentLayer,
 	def testTearDown(cls):
 		pass
 
-
 import unittest
 
 class TraversalLayerTest(unittest.TestCase):

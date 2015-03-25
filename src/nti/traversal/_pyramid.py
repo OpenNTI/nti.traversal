@@ -13,7 +13,7 @@ try:
 	from pyramid.traversal import find_interface as p_find_interface
 	from pyramid.traversal import _join_path_tuple as p_join_path_tuple
 	
-	p_find_interface = p_find_interface # pylint
+	p_find_interface = p_find_interface
 	p_join_path_tuple = p_join_path_tuple
 
 except ImportError:

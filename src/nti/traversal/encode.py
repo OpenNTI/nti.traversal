@@ -11,10 +11,10 @@ logger = __import__('logging').getLogger(__name__)
 
 try:
 	from pyramid.encode import url_quote
-	url_quote = url_quote # pylint
+	url_quote = url_quote
 
 except ImportError:
-	
+
 	from nti.common._compat import text_type
 	from nti.common._compat import binary_type
 	
