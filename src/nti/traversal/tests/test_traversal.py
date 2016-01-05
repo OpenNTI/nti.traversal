@@ -10,6 +10,7 @@ __docformat__ = "restructuredtext en"
 from hamcrest import is_
 from hamcrest import assert_that
 from hamcrest import contains_string
+
 from nose.tools import assert_raises
 
 from zope import interface
@@ -42,8 +43,8 @@ class TestTraversal(TraversalLayerTest):
 			__parent__ = Middle()
 			__name__ = u'\u2019'
 
-		assert_that( resource_path( Leaf() ),
-					 is_( '/Middle/%E2%80%99' ) )
+		assert_that(resource_path(Leaf()),
+					is_('/Middle/%E2%80%99'))
 
 	def test_traversal_no_root(self):
 
@@ -58,11 +59,11 @@ class TestTraversal(TraversalLayerTest):
 			__name__ = u'\u2019'
 
 		log_handler = zope.testing.loghandler.Handler(None)
-		log_handler.add( 'nti.traversal.traversal' )
+		log_handler.add('nti.traversal.traversal')
 		try:
-			with assert_raises( TypeError ):
-				resource_path( Leaf() )
+			with assert_raises(TypeError):
+				resource_path(Leaf())
 			record, = log_handler.records
-			assert_that(record.getMessage(), contains_string( "test_traversal.Middle" ))
+			assert_that(record.getMessage(), contains_string("test_traversal.Middle"))
 		finally:
 			log_handler.close()

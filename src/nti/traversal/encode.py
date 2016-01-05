@@ -17,12 +17,12 @@ except ImportError:
 
 	from nti.common._compat import text_type
 	from nti.common._compat import binary_type
-	
+
 	try:
 		from urllib.parse import quote as _url_quote
-	except ImportError: # PY3
+	except ImportError:  # PY3
 		from urllib import quote as _url_quote
-	
+
 	def url_quote(val, safe=''):
 		cls = val.__class__
 		if cls is text_type:

@@ -25,8 +25,8 @@ from zope.traversing import interfaces as _zinterfaces
 # Save the original implementation
 _marker = _zadapters._marker
 
-def _nti_traversePathElement( obj, name, further_path, default=_marker,
-							  traversable=None, request=None): pass
+def _nti_traversePathElement(obj, name, further_path, default=_marker,
+							 traversable=None, request=None): pass
 _nti_traversePathElement.__code__ = _zadapters.traversePathElement.__code__
 
 # Carefully add the right globals. Too much screws things up
@@ -36,7 +36,7 @@ _nti_traversePathElement.func_globals['LocationError'] = _zinterfaces.TraversalE
 _nti_traversePathElement.func_globals['namespaceLookup'] = _zadapters.namespaceLookup
 
 def _patched_traversePathElement(obj, name, further_path, default=_marker,
-								 traversable=None, request=None ):
+								 traversable=None, request=None):
 	try:
 		return _nti_traversePathElement(obj, name, further_path, default=default,
 										traversable=traversable, request=request)
@@ -48,28 +48,28 @@ def _patched_traversePathElement(obj, name, further_path, default=_marker,
 			return default
 		# These two things we get from the func_globals dictionary
 		info = _nti_exc_info()
-		raise LocationError( "Unable to traverse due to attempt to access attribute as unicode.",
-							  obj, name ), None, info[2]
+		raise LocationError("Unable to traverse due to attempt to access attribute as unicode.",
+							obj, name), None, info[2]
 
 _patched_traversing = False
 def _patch_traversing():
 
 	@_zinterface.implementer(_zinterfaces.ITraversable)
 	class BrokenTraversable(object):
-		def traverse( self, name, furtherPath ):
-			getattr( self, u'\u2019', None )
+		def traverse(self, name, furtherPath):
+			getattr(self, u'\u2019', None)
 
 
 	def is_api_broken():
 		try:
-			_zapi.traverseName( BrokenTraversable(), '' )
+			_zapi.traverseName(BrokenTraversable(), '')
 		except UnicodeEncodeError:
 			return True
 		except _zadapters.LocationError:
 			return False
 
 	if is_api_broken():
-		logger.info( "Monkey patching zope.traversing to be robust to unicode attr names" )
+		logger.info("Monkey patching zope.traversing to be robust to unicode attr names")
 
 		_zadapters.traversePathElement.__code__ = _patched_traversePathElement.__code__
 		_zadapters.traversePathElement.func_globals['_nti_exc_info'] = sys.exc_info
@@ -86,7 +86,7 @@ def _patch_traversing():
 	# but it has the order backwards from the DefaultTraversable.
 	def is_adapter_broken():
 		try:
-			_zadapters.DefaultTraversable( object() ).traverse( u'\u2019', () )
+			_zadapters.DefaultTraversable(object()).traverse(u'\u2019', ())
 		except UnicodeEncodeError:
 			return True
 		except _zadapters.LocationError:
@@ -99,7 +99,7 @@ def _patch_traversing():
 			subject = self._subject
 			__traceback_info__ = subject, name, furtherPath
 			try:
-				attr = getattr( subject, name, _marker )
+				attr = getattr(subject, name, _marker)
 			except UnicodeEncodeError:
 				attr = _marker
 			if attr is not _marker:

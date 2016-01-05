@@ -7,6 +7,8 @@ __docformat__ = "restructuredtext en"
 # disable: accessing protected members, too many methods
 # pylint: disable=W0212,R0904
 
+import unittest
+
 from nti.testing.layers import ZopeComponentLayer
 from nti.testing.layers import ConfiguringLayerMixin
 
@@ -33,8 +35,6 @@ class TraversalTestLayer(ZopeComponentLayer,
 	@classmethod
 	def testTearDown(cls):
 		pass
-
-import unittest
 
 class TraversalLayerTest(unittest.TestCase):
 	layer = TraversalTestLayer

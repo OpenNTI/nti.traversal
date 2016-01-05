@@ -28,27 +28,27 @@ class TestMonkey(TraversalLayerTest):
 
 		@interface.implementer(ITraversable)
 		class BrokenTraversable(object):
-			def traverse( self, name, furtherPath ):
-				getattr( self, u'\u2019', None ) # Raise unicode error
-	
-		with assert_raises(TraversalError):
-			# Not a unicode error
-			trv_api.traverseName( BrokenTraversable(), '' )
+			def traverse(self, name, furtherPath):
+				getattr(self, u'\u2019', None)  # Raise unicode error
 
-		assert_that( trv_api.traverseName( BrokenTraversable(), '', default=1 ), is_( 1 ) )
-		
 		with assert_raises(TraversalError):
 			# Not a unicode error
-			trv_api.traverseName( object(), u'\u2019' )
-	
-		assert_that( trv_api.traverseName( object(), u'\u2019', default=1 ), is_( 1 ) )
-	
+			trv_api.traverseName(BrokenTraversable(), '')
+
+		assert_that(trv_api.traverseName(BrokenTraversable(), '', default=1), is_(1))
+
 		with assert_raises(TraversalError):
 			# Not a unicode error
-			trv_api.traverseName( {}, u'\u2019' )
-	
-		assert_that( trv_api.traverseName( {}, u'\u2019', default=1 ), is_( 1 ) )
-	
+			trv_api.traverseName(object(), u'\u2019')
+
+		assert_that(trv_api.traverseName(object(), u'\u2019', default=1), is_(1))
+
+		with assert_raises(TraversalError):
+			# Not a unicode error
+			trv_api.traverseName({}, u'\u2019')
+
+		assert_that(trv_api.traverseName({}, u'\u2019', default=1), is_(1))
+
 		# Namespacing works. Note that namespace traversal ignores default values
 		with assert_raises(TraversalError):
-			assert_that( trv_api.traverseName( {}, u'++foo++bar', default=1 ), is_( 1 ) )
+			assert_that(trv_api.traverseName({}, u'++foo++bar', default=1), is_(1))
