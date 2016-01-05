@@ -9,5 +9,3 @@ __docformat__ = "restructuredtext en"
 
 logger = __import__('logging').getLogger(__name__)
 
-from .traversal import find_interface
-from .traversal import find_nearest_site
