@@ -9,10 +9,6 @@ __docformat__ = "restructuredtext en"
 
 logger = __import__('logging').getLogger(__name__)
 
-from . import monkey as traversing_patch
-traversing_patch.patch()
-del traversing_patch
-
 from zope import component
 
 from zope.location import LocationIterator

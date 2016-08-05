@@ -14,8 +14,7 @@ from nti.testing.layers import ConfiguringLayerMixin
 
 import zope.testing.cleanup
 
-class TraversalTestLayer(ZopeComponentLayer,
-								ConfiguringLayerMixin):
+class TraversalTestLayer(ZopeComponentLayer, ConfiguringLayerMixin):
 
 	set_up_packages = ('nti.traversal',)
 
