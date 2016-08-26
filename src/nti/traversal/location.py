@@ -15,7 +15,6 @@ try:
 
 	lineage = lineage
 	find_interface = find_interface
-
 except ImportError:
 
 	from zope.interface.interfaces import IInterface

@@ -51,7 +51,7 @@ setup(
 		'zope.location',
 		'zope.security',
 		'zope.traversing',
-		'nti.common'
+		'nti.property'
 	],
 	extras_require={
 		'test': TESTS_REQUIRE,

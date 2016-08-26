@@ -12,11 +12,12 @@ logger = __import__('logging').getLogger(__name__)
 from zope import component
 
 from zope.location import LocationIterator
+
 from zope.location.interfaces import IContained
 from zope.location.interfaces import ILocationInfo
 
-from ._pyramid import p_join_path_tuple as _join_path_tuple
-from ._pyramid import p_find_interface as _p_find_interface
+from nti.traversal._pyramid import p_join_path_tuple as _join_path_tuple
+from nti.traversal._pyramid import p_find_interface as _p_find_interface
 
 def resource_path(res):
 	# This function is somewhat more flexible than Pyramid's, and
@@ -171,10 +172,11 @@ from zope import interface
 
 from zope.container.traversal import ContainerTraversable as _ContainerTraversable
 
-from zope.traversing.interfaces import ITraversable
 from zope.traversing.adapters import DefaultTraversable as _DefaultTraversable
 
-from nti.common.property import alias
+from zope.traversing.interfaces import ITraversable
+
+from nti.property.property import alias
 
 @interface.implementer(ITraversable)
 class ContainerAdapterTraversable(_ContainerTraversable):

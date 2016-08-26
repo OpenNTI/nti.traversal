@@ -15,8 +15,8 @@ try:
 
 except ImportError:
 
-	from nti.common._compat import text_type
-	from nti.common._compat import binary_type
+	from nti.traversal._compat import text_type
+	from nti.traversal._compat import binary_type
 
 	try:
 		from urllib.parse import quote as _url_quote

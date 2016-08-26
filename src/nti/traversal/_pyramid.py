@@ -21,10 +21,10 @@ try:
 except ImportError:
 	warnings.warn('pyramid not available')
 
-	from nti.common._compat import PY3
-	from nti.common._compat import native_
-	from nti.common._compat import text_type
-	from nti.common._compat import binary_type
+	from nti.traversal._compat import PY3
+	from nti.traversal._compat import native_
+	from nti.traversal._compat import text_type
+	from nti.traversal._compat import binary_type
 
 	from .encode import url_quote
 
