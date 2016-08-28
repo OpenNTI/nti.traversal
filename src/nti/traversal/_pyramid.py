@@ -26,9 +26,9 @@ except ImportError:
 	from nti.traversal._compat import text_type
 	from nti.traversal._compat import binary_type
 
-	from .encode import url_quote
+	from nti.traversal.encode import url_quote
 
-	from .location import find_interface as p_find_interface
+	from nti.traversal.location import find_interface as p_find_interface
 
 	_segment_cache = {}
 
