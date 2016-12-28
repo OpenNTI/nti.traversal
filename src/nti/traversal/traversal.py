@@ -53,6 +53,7 @@ def resource_path(res):
 	for p in parents:
 		name = p.__name__
 		if name is None:
+			__traceback_info__ = p
 			raise TypeError("Element in the hierarchy is missing __name__")
 		names.append(name)
 	return _join_path_tuple(tuple(names))
