@@ -14,26 +14,28 @@ from nti.testing.layers import ConfiguringLayerMixin
 
 import zope.testing.cleanup
 
+
 class TraversalTestLayer(ZopeComponentLayer, ConfiguringLayerMixin):
 
-	set_up_packages = ('nti.traversal',)
+    set_up_packages = ('nti.traversal',)
 
-	@classmethod
-	def setUp(cls):
-		cls.setUpPackages()
+    @classmethod
+    def setUp(cls):
+        cls.setUpPackages()
 
-	@classmethod
-	def tearDown(cls):
-		cls.tearDownPackages()
-		zope.testing.cleanup.cleanUp()
+    @classmethod
+    def tearDown(cls):
+        cls.tearDownPackages()
+        zope.testing.cleanup.cleanUp()
 
-	@classmethod
-	def testSetUp(cls, test=None):
-		pass
+    @classmethod
+    def testSetUp(cls, test=None):
+        pass
 
-	@classmethod
-	def testTearDown(cls):
-		pass
+    @classmethod
+    def testTearDown(cls):
+        pass
+
 
 class TraversalLayerTest(unittest.TestCase):
-	layer = TraversalTestLayer
+    layer = TraversalTestLayer

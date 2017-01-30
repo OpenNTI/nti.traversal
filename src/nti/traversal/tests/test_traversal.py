@@ -24,46 +24,48 @@ import zope.testing.loghandler
 
 from nti.traversal.tests import TraversalLayerTest
 
+
 class TestTraversal(TraversalLayerTest):
 
-	def test_unicode_resource_path(self):
+    def test_unicode_resource_path(self):
 
-		@interface.implementer(IRoot)
-		class Root(object):
-			__parent__ = None
-			__name__ = None
+        @interface.implementer(IRoot)
+        class Root(object):
+            __parent__ = None
+            __name__ = None
 
-		@interface.implementer(ILocation)
-		class Middle(object):
-			__parent__ = Root()
-			__name__ = u'Middle'
+        @interface.implementer(ILocation)
+        class Middle(object):
+            __parent__ = Root()
+            __name__ = u'Middle'
 
-		@interface.implementer(ILocation)
-		class Leaf(object):
-			__parent__ = Middle()
-			__name__ = u'\u2019'
+        @interface.implementer(ILocation)
+        class Leaf(object):
+            __parent__ = Middle()
+            __name__ = u'\u2019'
 
-		assert_that(resource_path(Leaf()),
-					is_('/Middle/%E2%80%99'))
+        assert_that(resource_path(Leaf()),
+                    is_('/Middle/%E2%80%99'))
 
-	def test_traversal_no_root(self):
+    def test_traversal_no_root(self):
 
-		@interface.implementer(ILocation)
-		class Middle(object):
-			__parent__ = None
-			__name__ = u'Middle'
+        @interface.implementer(ILocation)
+        class Middle(object):
+            __parent__ = None
+            __name__ = u'Middle'
 
-		@interface.implementer(ILocation)
-		class Leaf(object):
-			__parent__ = Middle()
-			__name__ = u'\u2019'
+        @interface.implementer(ILocation)
+        class Leaf(object):
+            __parent__ = Middle()
+            __name__ = u'\u2019'
 
-		log_handler = zope.testing.loghandler.Handler(None)
-		log_handler.add('nti.traversal.traversal')
-		try:
-			with assert_raises(TypeError):
-				resource_path(Leaf())
-			record, = log_handler.records
-			assert_that(record.getMessage(), contains_string("test_traversal.Middle"))
-		finally:
-			log_handler.close()
+        log_handler = zope.testing.loghandler.Handler(None)
+        log_handler.add('nti.traversal.traversal')
+        try:
+            with assert_raises(TypeError):
+                resource_path(Leaf())
+            record, = log_handler.records
+            assert_that(record.getMessage(),
+                        contains_string("test_traversal.Middle"))
+        finally:
+            log_handler.close()
