@@ -28,6 +28,20 @@ else:
     class_types = (type, types.ClassType)
 
 if PY3:  # pragma: no cover
+    _unicode = lambda s: s
+else:
+    _unicode = unicode
+
+
+def unicode_(s, encoding='utf-8', err='strict'):
+    """
+    Decode a byte sequence and unicode result
+    """
+    s = s.decode(encoding, err) if isinstance(s, bytes) else s
+    return _unicode(s) if s is not None else None
+to_unicode = unicode_
+
+if PY3:  # pragma: no cover
     def native_(s, encoding='latin-1', errors='strict'):
         """
         If ``s`` is an instance of ``text_type``, return
