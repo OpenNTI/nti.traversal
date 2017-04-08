@@ -45,6 +45,7 @@ setup(
     tests_require=TESTS_REQUIRE,
     install_requires=[
         'setuptools',
+        'nti.property',
         'six',
         'zope.container',
         'zope.component',
@@ -52,7 +53,6 @@ setup(
         'zope.location',
         'zope.security',
         'zope.traversing',
-        'nti.property'
     ],
     extras_require={
         'test': TESTS_REQUIRE,
