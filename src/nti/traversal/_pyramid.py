@@ -54,4 +54,4 @@ except ImportError:
             return result
 
     def p_join_path_tuple(t):
-        return t and '/'.join([quote_path_segment(x) for x in t]) or '/'
+        return t and '/'.join(quote_path_segment(x) for x in t) or '/'
