@@ -10,8 +10,8 @@ entry_points = {
 
 TESTS_REQUIRE = [
     'nose',
-    'nose-timer',
     'nose-pudb',
+    'nose-timer',
     'nose-progressive',
     'nose2[coverage_plugin]',
     'pyhamcrest',
@@ -34,7 +34,7 @@ setup(
         'Operating System :: OS Independent',
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3.3',
+        'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: Implementation :: CPython',
         'Programming Language :: Python :: Implementation :: PyPy'
