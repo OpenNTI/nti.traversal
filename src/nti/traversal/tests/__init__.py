@@ -1,26 +1,31 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from __future__ import print_function, unicode_literals, absolute_import
+from __future__ import print_function, unicode_literals, absolute_import, division
 __docformat__ = "restructuredtext en"
 
 # disable: accessing protected members, too many methods
 # pylint: disable=W0212,R0904
 
-import unittest
+from zope.component.hooks import setHooks
 
+from nti.testing.layers import find_test
+from nti.testing.layers import GCLayerMixin
 from nti.testing.layers import ZopeComponentLayer
 from nti.testing.layers import ConfiguringLayerMixin
 
 import zope.testing.cleanup
 
 
-class TraversalTestLayer(ZopeComponentLayer, ConfiguringLayerMixin):
+class SharedConfiguringTestLayer(ZopeComponentLayer,
+                                 GCLayerMixin,
+                                 ConfiguringLayerMixin):
 
     set_up_packages = ('nti.traversal',)
 
     @classmethod
     def setUp(cls):
+        setHooks()
         cls.setUpPackages()
 
     @classmethod
@@ -30,12 +35,8 @@ class TraversalTestLayer(ZopeComponentLayer, ConfiguringLayerMixin):
 
     @classmethod
     def testSetUp(cls, test=None):
-        pass
+        setHooks()
 
     @classmethod
     def testTearDown(cls):
         pass
-
-
-class TraversalLayerTest(unittest.TestCase):
-    layer = TraversalTestLayer

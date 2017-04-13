@@ -13,6 +13,8 @@ from hamcrest import contains_string
 
 from nose.tools import assert_raises
 
+import unittest
+
 from zope import interface
 
 from zope.location.interfaces import IRoot
@@ -22,10 +24,12 @@ from nti.traversal.traversal import resource_path
 
 import zope.testing.loghandler
 
-from nti.traversal.tests import TraversalLayerTest
+from nti.traversal.tests import SharedConfiguringTestLayer
 
 
-class TestTraversal(TraversalLayerTest):
+class TestTraversal(unittest.TestCase):
+
+    layer = SharedConfiguringTestLayer
 
     def test_unicode_resource_path(self):
 
