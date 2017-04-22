@@ -47,7 +47,7 @@ setup(
     tests_require=TESTS_REQUIRE,
     install_requires=[
         'setuptools',
-        'pyramid',
+        'repoze.lru',
         'zope.container',
         'zope.component',
         'zope.interface',

@@ -4,7 +4,7 @@
 .. $Id$
 """
 
-from __future__ import print_function, unicode_literals, absolute_import, division
+from __future__ import print_function, absolute_import, division
 __docformat__ = "restructuredtext en"
 
 logger = __import__('logging').getLogger(__name__)
@@ -16,9 +16,9 @@ from zope.location import LocationIterator
 from zope.location.interfaces import IContained
 from zope.location.interfaces import ILocationInfo
 
-from pyramid.traversal import _join_path_tuple # private method
-from pyramid.traversal import find_interface as _p_find_interface
+from nti.traversal.compat import join_path_tuple
 
+from nti.traversal.location import find_interface as _p_find_interface
 
 def resource_path(res):
     # This function is somewhat more flexible than Pyramid's, and
@@ -59,7 +59,7 @@ def resource_path(res):
             __traceback_info__ = p
             raise TypeError("Element in the hierarchy is missing __name__")
         names.append(name)
-    return _join_path_tuple(tuple(names))
+    return join_path_tuple(tuple(names))
 
 
 def normal_resource_path(res):

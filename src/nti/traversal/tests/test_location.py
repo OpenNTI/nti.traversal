@@ -17,7 +17,7 @@ from zope import interface
 from zope.interface import Interface
 from zope.interface import directlyProvides
 
-from pyramid.interfaces import ILocation
+from zope.location.interfaces import ILocation
 
 from nti.traversal.location import lineage
 from nti.traversal.location import find_interface
