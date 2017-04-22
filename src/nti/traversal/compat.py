@@ -105,4 +105,4 @@ else:
 
 @lru_cache(1000)
 def join_path_tuple(t):
-    return t and '/'.join([quote_path_segment(x) for x in t]) or '/'
+    return t and '/'.join(quote_path_segment(x) for x in t) or '/'
