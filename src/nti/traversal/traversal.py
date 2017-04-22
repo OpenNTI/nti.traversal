@@ -185,8 +185,6 @@ from zope.traversing.adapters import DefaultTraversable as _DefaultTraversable
 
 from zope.traversing.interfaces import ITraversable
 
-from nti.property.property import alias
-
 
 @interface.implementer(ITraversable)
 class ContainerAdapterTraversable(_ContainerTraversable):
@@ -199,7 +197,8 @@ class ContainerAdapterTraversable(_ContainerTraversable):
     directly. It is usable both with and without a request.
     """
 
-    context = alias('_container')
+    context = property(lambda self: getattr(self, "_container"),
+                       lambda self, nv: setattr(self, "_container", nv))
 
     def __init__(self, context, request=None):
         super(ContainerAdapterTraversable, self).__init__(context)

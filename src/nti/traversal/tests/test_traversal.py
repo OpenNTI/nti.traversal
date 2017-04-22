@@ -8,7 +8,9 @@ __docformat__ = "restructuredtext en"
 # pylint: disable=W0212,R0904
 
 from hamcrest import is_
+from hamcrest import none
 from hamcrest import assert_that
+from hamcrest import has_property
 from hamcrest import contains_string
 
 import unittest
@@ -19,6 +21,7 @@ from zope.location.interfaces import IRoot
 from zope.location.interfaces import ILocation
 
 from nti.traversal.traversal import resource_path
+from nti.traversal.traversal import ContainerAdapterTraversable
 
 import zope.testing.loghandler
 
@@ -71,3 +74,16 @@ class TestTraversal(unittest.TestCase):
                         contains_string("test_traversal.Middle"))
         finally:
             log_handler.close()
+
+    def test_adapter_traversable(self):
+        @interface.implementer(ILocation)
+        class Middle(object):
+            __parent__ = None
+            __name__ = u'Middle'
+        mid = Middle()
+        c = ContainerAdapterTraversable(mid)
+        assert_that(c, has_property('context', is_(mid)))
+        assert_that(c, has_property('_container', is_(mid)))
+        c.context = None
+        assert_that(c, has_property('context', is_(none())))
+        assert_that(c, has_property('_container', is_(none())))
