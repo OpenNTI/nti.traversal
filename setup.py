@@ -47,9 +47,11 @@ setup(
     tests_require=TESTS_REQUIRE,
     install_requires=[
         'setuptools',
+        'pyramid',
         'six',
         'zope.container',
         'zope.component',
+        'zope.deferredimport',
         'zope.interface',
         'zope.location',
         'zope.traversing',

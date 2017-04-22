@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from __future__ import print_function, unicode_literals, absolute_import
+from __future__ import print_function, absolute_import, division
 __docformat__ = "restructuredtext en"
 
 # disable: accessing protected members, too many methods
@@ -71,7 +71,7 @@ class TestTraversal(unittest.TestCase):
                 resource_path(Leaf())
             record, = log_handler.records
             assert_that(record.getMessage(),
-                        contains_string("test_traversal.Middle"))
+                        contains_string(".Middle"))
         finally:
             log_handler.close()
 

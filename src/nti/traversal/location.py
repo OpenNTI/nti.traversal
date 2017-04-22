@@ -9,30 +9,13 @@ __docformat__ = "restructuredtext en"
 
 logger = __import__('logging').getLogger(__name__)
 
-try:
-    from pyramid.location import lineage
-    from pyramid.traversal import find_interface
+import zope.deferredimport
+zope.deferredimport.initialize()
 
-    lineage = lineage
-    find_interface = find_interface
+zope.deferredimport.deprecatedFrom(
+    "Moved to pyramid.location",
+    "lineage")
 
-except ImportError:
-
-    from zope.interface.interfaces import IInterface
-
-    def lineage(resource):
-        while resource is not None:
-            yield resource
-            try:
-                resource = resource.__parent__
-            except AttributeError:
-                resource = None
-
-    def find_interface(resource, class_or_interface):
-        if IInterface.providedBy(class_or_interface):
-            test = class_or_interface.providedBy
-        else:
-            test = lambda arg: isinstance(arg, class_or_interface)
-        for location in lineage(resource):
-            if test(location):
-                return location
+zope.deferredimport.deprecatedFrom(
+    "Moved to pyramid.traversal",
+    "find_interface")

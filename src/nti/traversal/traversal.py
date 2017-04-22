@@ -16,8 +16,8 @@ from zope.location import LocationIterator
 from zope.location.interfaces import IContained
 from zope.location.interfaces import ILocationInfo
 
-from nti.traversal._pyramid import p_join_path_tuple as _join_path_tuple
-from nti.traversal._pyramid import p_find_interface as _p_find_interface
+from pyramid.traversal import _join_path_tuple # private method
+from pyramid.traversal import find_interface as _p_find_interface
 
 
 def resource_path(res):
