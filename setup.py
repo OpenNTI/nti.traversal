@@ -48,7 +48,6 @@ setup(
     install_requires=[
         'setuptools',
         'pyramid',
-        'six',
         'zope.container',
         'zope.component',
         'zope.deferredimport',
