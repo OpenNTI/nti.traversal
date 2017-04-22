@@ -20,6 +20,7 @@ from nti.traversal.compat import join_path_tuple
 
 from nti.traversal.location import find_interface as _p_find_interface
 
+
 def resource_path(res):
     # This function is somewhat more flexible than Pyramid's, and
     # also more strict. It requires strings (not None, for example)
@@ -140,6 +141,7 @@ def find_interface(resource, interface, strict=True):
         if interface.providedBy(item):
             return item
 
+
 from zope.traversing.namespace import adapter
 from zope.traversing.interfaces import IPathAdapter
 
@@ -176,6 +178,7 @@ class adapter_request(adapter):
         assert result.__name__ == name
 
         return result
+
 
 from zope import interface
 
