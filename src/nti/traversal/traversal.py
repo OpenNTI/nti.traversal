@@ -157,10 +157,9 @@ class adapter_request(adapter):
     def traverse(self, name, ignored):
         result = None
         if self.request is not None:
-            result = component.queryMultiAdapter(
-                (self.context, self.request),
-                IPathAdapter,
-                name)
+            result = component.queryMultiAdapter((self.context, self.request),
+                                                 IPathAdapter,
+                                                 name)
 
         if result is None:
             # Look for the single-adapter. Or raise location error
