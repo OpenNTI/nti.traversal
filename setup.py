@@ -50,7 +50,6 @@ setup(
         'pyramid',
         'zope.container',
         'zope.component',
-        'zope.deferredimport',
         'zope.interface',
         'zope.location',
         'zope.traversing',
