@@ -1,7 +1,6 @@
 import codecs
 from setuptools import setup, find_packages
 
-
 entry_points = {
     'console_scripts': [
     ],
@@ -25,8 +24,9 @@ setup(
     author='Jason Madden',
     author_email='jason@nextthought.com',
     description="NTI Traversal",
-    long_description=codecs.open('README.rst', encoding='utf-8').read(),
-    license='Proprietary',
+    long_description=(_read('README.rst') + '\n\n' + _read("CHANGES.rst")),
+    url="https://github.com/NextThought/nti.traversal",
+    license='Apache',
     keywords='Traversal',
     classifiers=[
         'Intended Audience :: Developers',
@@ -37,10 +37,12 @@ setup(
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: Implementation :: CPython',
-        'Programming Language :: Python :: Implementation :: PyPy'
+        'Programming Language :: Python :: Implementation :: PyPy',
     ],
+    zip_safe=True,
     packages=find_packages('src'),
     package_dir={'': 'src'},
+    include_package_data=True,
     namespace_packages=['nti'],
     tests_require=TESTS_REQUIRE,
     install_requires=[
