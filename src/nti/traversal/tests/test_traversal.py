@@ -11,8 +11,6 @@ from hamcrest import is_
 from hamcrest import assert_that
 from hamcrest import contains_string
 
-from nose.tools import assert_raises
-
 import unittest
 
 from zope import interface
@@ -66,7 +64,7 @@ class TestTraversal(unittest.TestCase):
         log_handler = zope.testing.loghandler.Handler(None)
         log_handler.add('nti.traversal.traversal')
         try:
-            with assert_raises(TypeError):
+            with self.assertRaises(TypeError):
                 resource_path(Leaf())
             record, = log_handler.records
             assert_that(record.getMessage(),

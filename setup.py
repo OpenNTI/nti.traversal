@@ -9,15 +9,16 @@ entry_points = {
 }
 
 TESTS_REQUIRE = [
-    'nose',
-    'nose-pudb',
-    'nose-timer',
-    'nose-progressive',
-    'nose2[coverage_plugin]',
+    'nti.testing',
     'pyhamcrest',
-    'nti.nose_traceback_info',
-    'nti.testing'
+    'zope.testrunner',
 ]
+
+
+def _read(fname):
+    with codecs.open(fname, encoding='utf-8') as f:
+        return f.read()
+
 
 setup(
     name='nti.traversal',
@@ -34,8 +35,6 @@ setup(
         'Operating System :: OS Independent',
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: Implementation :: CPython',
         'Programming Language :: Python :: Implementation :: PyPy'
     ],
@@ -51,11 +50,11 @@ setup(
         'zope.component',
         'zope.interface',
         'zope.location',
-        'zope.security',
         'zope.traversing',
     ],
     extras_require={
         'test': TESTS_REQUIRE,
     },
-    entry_points=entry_points
+    entry_points=entry_points,
+    test_suite="nti.traversal.tests",
 )

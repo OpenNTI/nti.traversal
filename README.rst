@@ -1,11 +1,9 @@
-==========
- nti.base
-==========
+===============
+ nti.traversal
+===============
 
-.. image:: https://travis-ci.org/NextThought/nti.base.svg?branch=master
-    :target: https://travis-ci.org/NextThought/nti.base
+.. image:: https://travis-ci.org/NextThought/nti.traversal.svg?branch=master
+    :target: https://travis-ci.org/NextThought/nti.traversal
 
-.. image:: https://coveralls.io/repos/github/NextThought/nti.base/badge.svg?branch=master
-    :target: https://coveralls.io/github/NextThought/nti.base?branch=master
-
-For complete details and the changelog, see the `documentation <http://ntibase.readthedocs.io/>`_.
+.. image:: https://coveralls.io/repos/github/NextThought/nti.traversal/badge.svg?branch=master
+    :target: https://coveralls.io/github/NextThought/nti.traversal?branch=master
