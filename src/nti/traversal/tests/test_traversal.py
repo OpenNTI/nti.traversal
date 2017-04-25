@@ -9,6 +9,7 @@ __docformat__ = "restructuredtext en"
 
 from hamcrest import is_
 from hamcrest import none
+from hamcrest import is_not
 from hamcrest import assert_that
 from hamcrest import has_property
 from hamcrest import contains_string
@@ -21,6 +22,7 @@ from zope.location.interfaces import IRoot
 from zope.location.interfaces import ILocation
 
 from nti.traversal.traversal import resource_path
+from nti.traversal.traversal import find_interface
 from nti.traversal.traversal import ContainerAdapterTraversable
 
 import zope.testing.loghandler
@@ -51,6 +53,12 @@ class TestTraversal(unittest.TestCase):
 
         assert_that(resource_path(Leaf()),
                     is_('/Middle/%E2%80%99'))
+        
+        root = find_interface(Leaf(), IRoot, strict=True)
+        assert_that(root, is_not(none()))
+        
+        root = find_interface(Leaf(), IRoot, strict=False)
+        assert_that(root, is_not(none()))
 
     def test_traversal_no_root(self):
 
