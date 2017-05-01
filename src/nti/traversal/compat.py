@@ -24,8 +24,11 @@ try:
 except ImportError:
     _segment_cache = {}
 
-#: from webob
-PATH_SEGMENT_SAFE = "~!$&'()*+,;=:@"
+try:
+    from webob.request import PATH_SAFE as PATH_SEGMENT_SAFE
+except ImportError:
+    PATH_SEGMENT_SAFE = "/~!$&'()*+,;=:@"
+
 
 PY2 = sys.version_info[0] == 2
 
