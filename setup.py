@@ -8,7 +8,6 @@ entry_points = {
 
 TESTS_REQUIRE = [
     'nti.testing',
-    'pyhamcrest',
     'zope.testrunner',
 ]
 
@@ -56,6 +55,11 @@ setup(
     ],
     extras_require={
         'test': TESTS_REQUIRE,
+        'docs': [
+            'Sphinx',
+            'repoze.sphinx.autointerface',
+            'sphinx_rtd_theme',
+        ]
     },
     entry_points=entry_points,
 )
