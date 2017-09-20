@@ -4,10 +4,9 @@
 .. $Id$
 """
 
-from __future__ import print_function, absolute_import, division
-__docformat__ = "restructuredtext en"
-
-logger = __import__('logging').getLogger(__name__)
+from __future__ import division
+from __future__ import print_function
+from __future__ import absolute_import
 
 from zope import component
 
@@ -19,6 +18,8 @@ from zope.location.interfaces import ILocationInfo
 from nti.traversal.compat import join_path_tuple
 
 from nti.traversal.location import find_interface as _p_find_interface
+
+logger = __import__('logging').getLogger(__name__)
 
 
 def resource_path(res):

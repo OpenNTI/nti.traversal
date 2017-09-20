@@ -10,10 +10,9 @@ Code taken from https://github.com/Pylons/pyramid
 .. $Id$
 """
 
-from __future__ import print_function, absolute_import, division
-__docformat__ = "restructuredtext en"
-
-logger = __import__('logging').getLogger(__name__)
+from __future__ import division
+from __future__ import print_function
+from __future__ import absolute_import
 
 import sys
 
@@ -29,7 +28,6 @@ try:
 except ImportError:
     PATH_SEGMENT_SAFE = "/~!$&'()*+,;=:@"
 
-
 PY2 = sys.version_info[0] == 2
 
 if PY2:
@@ -44,6 +42,8 @@ if PY2:
     _url_quote = quote
 else:
     from urllib.parse import quote as _url_quote
+
+logger = __import__('logging').getLogger(__name__)
 
 
 def url_quote(val, safe=''):  # bw compat api
