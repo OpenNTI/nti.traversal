@@ -47,6 +47,7 @@ setup(
     install_requires=[
         'setuptools',
         'repoze.lru',
+        'six',
         'zope.container',
         'zope.component',
         'zope.interface',
