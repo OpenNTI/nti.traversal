@@ -155,6 +155,11 @@ def find_interface(resource, interface, strict=True):
             return item
 
 
+def path_adapter(context, request, name=''):
+    return component.queryMultiAdapter((context, request), IPathAdapter,
+                                       name)
+
+
 class adapter_request(adapter):
     """
     Implementation of the adapter namespace that attempts to pass the
@@ -168,9 +173,7 @@ class adapter_request(adapter):
     def traverse(self, name, ignored):
         result = None
         if self.request is not None:
-            result = component.queryMultiAdapter((self.context, self.request),
-                                                 IPathAdapter,
-                                                 name)
+            result = path_adapter(self.context, self.request, name)
 
         if result is None:
             # Look for the single-adapter. Or raise location error
