@@ -7,11 +7,6 @@ Compat
 
 .. automodule:: nti.traversal.compat
 
-Interfaces
-==========
-
-.. automodule:: nti.traversal.interfaces
-
 Location
 ========
 
