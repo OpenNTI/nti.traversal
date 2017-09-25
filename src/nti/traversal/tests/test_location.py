@@ -1,13 +1,15 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from __future__ import print_function, absolute_import, division
-__docformat__ = "restructuredtext en"
+from __future__ import division
+from __future__ import print_function
+from __future__ import absolute_import
 
 # disable: accessing protected members, too many methods
 # pylint: disable=W0212,R0904
 
 from hamcrest import is_
+from hamcrest import has_length
 from hamcrest import assert_that
 
 import unittest
@@ -23,6 +25,10 @@ from nti.traversal.location import lineage
 from nti.traversal.location import find_interface
 
 from nti.traversal.tests import SharedConfiguringTestLayer
+
+
+class Root(object):
+    pass
 
 
 @interface.implementer(ILocation)
@@ -50,6 +56,8 @@ class TestLineage(unittest.TestCase):
         result = list(self._callFUT(o1))
         assert_that(result, is_([o1]))
 
+        assert_that(list(self._callFUT(Root())),
+                    has_length(1))
 
 class DummyContext(object):
 
@@ -58,14 +66,6 @@ class DummyContext(object):
     def __init__(self, next_=None, name=None):
         self.next = next_
         self.__name__ = name
-
-    def __getitem__(self, name):
-        if self.next is None:
-            raise KeyError(name)
-        return self.next
-
-    def __repr__(self):
-        return '<DummyContext with name %s at id %s>' % (self.__name__, id(self))
 
 
 class TestFindInterface(unittest.TestCase):
@@ -94,3 +94,6 @@ class TestFindInterface(unittest.TestCase):
         directlyProvides(root, IFoo)
         result = self._callFUT(baz, IFoo)
         self.assertEqual(result.__name__, 'root')
+        
+        result = self._callFUT(baz, DummyContext)
+        self.assertEqual(result.__name__, 'baz')
