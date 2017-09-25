@@ -10,12 +10,22 @@ from __future__ import absolute_import
 
 import six
 
+from zope import interface
 from zope import component
+
+from zope.container.traversal import ContainerTraversable as _ContainerTraversable
 
 from zope.location import LocationIterator
 
 from zope.location.interfaces import IContained
 from zope.location.interfaces import ILocationInfo
+
+from zope.traversing.adapters import DefaultTraversable as _DefaultTraversable
+
+from zope.traversing.interfaces import IPathAdapter
+from zope.traversing.interfaces import ITraversable
+
+from zope.traversing.namespace import adapter
 
 from nti.traversal.compat import join_path_tuple
 
@@ -145,10 +155,6 @@ def find_interface(resource, interface, strict=True):
             return item
 
 
-from zope.traversing.namespace import adapter
-from zope.traversing.interfaces import IPathAdapter
-
-
 class adapter_request(adapter):
     """
     Implementation of the adapter namespace that attempts to pass the
@@ -181,15 +187,6 @@ class adapter_request(adapter):
         assert result.__name__ == name
 
         return result
-
-
-from zope import interface
-
-from zope.container.traversal import ContainerTraversable as _ContainerTraversable
-
-from zope.traversing.adapters import DefaultTraversable as _DefaultTraversable
-
-from zope.traversing.interfaces import ITraversable
 
 
 @interface.implementer(ITraversable)
