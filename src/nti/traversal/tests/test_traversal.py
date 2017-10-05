@@ -24,6 +24,7 @@ from zope.location.interfaces import ILocation
 from zope.location.interfaces import IContained
 from zope.location.interfaces import LocationError
 
+from nti.traversal.traversal import path_adapter
 from nti.traversal.traversal import resource_path
 from nti.traversal.traversal import find_interface
 from nti.traversal.traversal import find_nearest_site
@@ -176,19 +177,17 @@ class TestTraversal(unittest.TestCase):
         @interface.implementer(IContained)
         class Root(object):
             __parent__ = object()
-            __name__ = u'Root'
+            __name__ = None
 
         @interface.implementer(ILocation)
         class Middle(object):
             __parent__ = Root()
             __name__ = u'Middle'
 
-            def get(self, key, default=None):
-                if key == 'root':
-                    raise KeyError()
-                return default
-
         mock_pa.is_callable().with_args().returns(Root())
         d = DefaultAdapterTraversable(Middle(), object())
         assert_that(d.traverse('Root', ''),
                     is_(Root))
+
+    def test_coverage(self):
+        assert_that(path_adapter(None, None), is_(none()))
