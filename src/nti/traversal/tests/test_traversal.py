@@ -171,6 +171,14 @@ class TestTraversal(unittest.TestCase):
 
         with self.assertRaises(TypeError):
             find_nearest_site(Leaf(), marker)
+    
+        from zope.location.traversing import LocationPhysicallyLocatable
+        class Context(object):
+            pass
+        context = Context()
+        context.target = LocationPhysicallyLocatable(Leaf())
+        assert_that(find_nearest_site(context, marker),
+                     is_(marker))
 
     @fudge.patch('nti.traversal.traversal.path_adapter')
     def test_default_traversable(self, mock_pa):

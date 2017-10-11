@@ -21,15 +21,13 @@ from repoze.lru import lru_cache
 
 try:
     from pyramid.traversal import _segment_cache
-except ImportError:
+except ImportError:  # pragma: no cover
     _segment_cache = {}
 
 try:
     from webob.request import PATH_SAFE as PATH_SEGMENT_SAFE
-except ImportError:
+except ImportError:  # pragma: no cover
     PATH_SEGMENT_SAFE = "/~!$&'()*+,;=:@"
-
-logger = __import__('logging').getLogger(__name__)
 
 
 def url_quote(val, safe=''):  # bw compat api
@@ -50,7 +48,7 @@ if six.PY2:
         if isinstance(s, six.text_type):
             return s.encode(encoding, errors)
         return str(s)
-else:
+else:  # pragma: no cover
     def native_(s, encoding='latin-1', errors='strict'):
         """ 
         If ``s`` is an instance of ``text_type``, return
@@ -75,7 +73,7 @@ if six.PY2:
                 result = url_quote(str(segment), safe)
             _segment_cache[(segment, safe)] = result
             return result
-else:
+else:  # pragma: no cover
     def quote_path_segment(segment, safe=PATH_SEGMENT_SAFE):
         """ 
         Return a quoted representation of a 'path segment'
