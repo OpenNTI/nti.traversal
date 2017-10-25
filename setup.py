@@ -7,6 +7,7 @@ entry_points = {
 }
 
 TESTS_REQUIRE = [
+    'fudge',
     'nti.testing',
     'zope.testrunner',
 ]
@@ -23,7 +24,11 @@ setup(
     author='Jason Madden',
     author_email='jason@nextthought.com',
     description="NTI Traversal",
-    long_description=(_read('README.rst') + '\n\n' + _read("CHANGES.rst")),
+    long_description=(
+        _read('README.rst')
+        + '\n\n'
+        + _read("CHANGES.rst")
+    ),
     url="https://github.com/NextThought/nti.traversal",
     license='Apache',
     keywords='Traversal',
