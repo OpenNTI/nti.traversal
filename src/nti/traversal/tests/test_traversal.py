@@ -4,8 +4,7 @@
 from __future__ import print_function, absolute_import, division
 __docformat__ = "restructuredtext en"
 
-# disable: accessing protected members, too many methods
-# pylint: disable=W0212,R0904
+# pylint: disable=protected-access,too-many-public-methods
 
 from hamcrest import is_
 from hamcrest import none
@@ -16,6 +15,8 @@ from hamcrest import contains_string
 
 import fudge
 import unittest
+
+import zope.testing.loghandler
 
 from zope import interface
 
@@ -33,8 +34,6 @@ from nti.traversal.traversal import is_valid_resource_path
 
 from nti.traversal.traversal import DefaultAdapterTraversable
 from nti.traversal.traversal import ContainerAdapterTraversable
-
-import zope.testing.loghandler
 
 from nti.traversal.tests import SharedConfiguringTestLayer
 
@@ -97,6 +96,7 @@ class TestTraversal(unittest.TestCase):
         try:
             with self.assertRaises(TypeError):
                 resource_path(Leaf())
+            # pylint: disable=unbalanced-tuple-unpacking
             record, = log_handler.records
             assert_that(record.getMessage(),
                         contains_string(".Middle"))
@@ -176,6 +176,7 @@ class TestTraversal(unittest.TestCase):
         class Context(object):
             pass
         context = Context()
+        # pylint: disable=attribute-defined-outside-init
         context.target = LocationPhysicallyLocatable(Leaf())
         assert_that(find_nearest_site(context, marker),
                      is_(marker))

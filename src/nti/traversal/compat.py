@@ -36,6 +36,7 @@ def url_quote(val, safe=''):  # bw compat api
         val = val.encode('utf-8')
     elif cls is not six.binary_type:
         val = str(val).encode('utf-8')
+    # pylint: disable=redundant-keyword-arg
     return urllib_parse.quote(val, safe=safe)
 
 

@@ -10,8 +10,8 @@ from __future__ import absolute_import
 
 import six
 
-from zope import interface
 from zope import component
+from zope import interface
 
 from zope.container.traversal import ContainerTraversable as _ContainerTraversable
 
@@ -39,14 +39,15 @@ def resource_path(res):
     # also more strict. It requires strings (not None, for example)
     # and bottoms out at an IRoot. This helps us get things right.
     # It is probably also a bit slower.
-    # TODO: Could probably use a __traceback_supplement__ for this
+    # Could probably use a __traceback_supplement__ for this
     _known_parents = []
-    __traceback_info__ = res, _known_parents
+    __traceback_info__ = res, _known_parents  # pylint: disable=unused-variable
 
     # Ask for the parents; we do this instead of getPath() and url_quote
     # to work properly with unicode paths through the magic of pyramid
     loc_info = ILocationInfo(res)
     try:
+        # pylint: disable=too-many-function-args
         parents = loc_info.getParents()
     except TypeError:  # "Not enough context information to get all parents"
         # This is a programming/design error: some object is not where it
@@ -109,6 +110,7 @@ def find_nearest_site(context, root=None, ignore=None):
             then this attempts to take into account the target as well.
     :return: The nearest site. Possibly the root site.
     """
+    # pylint: disable=unused-variable
     __traceback_info__ = context, getattr(context, '__parent__', None)
 
     try:
@@ -116,6 +118,7 @@ def find_nearest_site(context, root=None, ignore=None):
     except TypeError:
         # Not adaptable (not located). What about the target?
         try:
+            # pylint: disable=too-many-function-args
             loc_info = ILocationInfo(context.target)
             nearest_site = loc_info.getNearestSite()
         except (TypeError, AttributeError):
@@ -125,6 +128,7 @@ def find_nearest_site(context, root=None, ignore=None):
         # Located. Better be able to get a site, otherwise we have a
         # broken chain.
         try:
+            # pylint: disable=too-many-function-args
             nearest_site = loc_info.getNearestSite()
         except TypeError:
             # Convertible, but not located correctly.
@@ -135,6 +139,7 @@ def find_nearest_site(context, root=None, ignore=None):
     return nearest_site
 
 
+# pylint: disable=redefined-outer-name
 def find_interface(resource, interface, strict=True):
     """
     Given an object, find the first object in its lineage providing the given interface.
@@ -142,12 +147,12 @@ def find_interface(resource, interface, strict=True):
     This is similar to :func:`pyramid.traversal.find_interface`, but, as with :func:`resource_path`
     requires the strict adherence to the resource tree, unless ``strict`` is set to ``False``
     """
-
+    # pylint: disable=unused-variable
     __traceback_info__ = resource, interface
 
     if not strict:
         return _p_find_interface(resource, interface)
-
+    # pylint: disable=too-many-function-args
     lineage = ILocationInfo(resource).getParents()
     lineage.insert(0, resource)
     for item in lineage:
@@ -180,6 +185,7 @@ class adapter_request(adapter):
             result = super(adapter_request, self).traverse(name, ignored)
 
         # Some sanity checks on the returned object
+        # pylint: disable=unused-variable
         __traceback_info__ = result, self.context, result.__parent__, result.__name__
 
         assert IContained.providedBy(result)
@@ -211,13 +217,13 @@ class ContainerAdapterTraversable(_ContainerTraversable):
         self.context = context
         self.request = request
 
-    def traverse(self, key, remaining_path):
+    def traverse(self, key, remaining_path):  # pylint: disable=arguments-differ
         try:
             return super(ContainerAdapterTraversable, self).traverse(key, remaining_path)
         except KeyError:
             # Is there a named path adapter?
-            adapter = adapter_request(self.context, self.request)
-            return adapter.traverse(key, remaining_path)
+            adapted = adapter_request(self.context, self.request)
+            return adapted.traverse(key, remaining_path)
 
 
 @interface.implementer(ITraversable)
@@ -236,10 +242,10 @@ class DefaultAdapterTraversable(_DefaultTraversable):
         self.context = context
         self.request = request
 
-    def traverse(self, key, remaining_path):
+    def traverse(self, key, remaining_path):  # pylint: disable=arguments-differ
         try:
             return super(DefaultAdapterTraversable, self).traverse(key, remaining_path)
         except KeyError:
             # Is there a named path adapter?
-            adapter = adapter_request(self.context, self.request)
-            return adapter.traverse(key, remaining_path)
+            adapted = adapter_request(self.context, self.request)
+            return adapted.traverse(key, remaining_path)
