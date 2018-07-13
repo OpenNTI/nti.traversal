@@ -6,7 +6,7 @@ Code taken from https://github.com/Pylons/pyramid
 @see: https://github.com/Pylons/pyramid/blob/1.8-branch/pyramid/compat.py
 @see: https://github.com/Pylons/pyramid/blob/1.8-branch/pyramid/encode.py
 @see: https://github.com/Pylons/pyramid/blob/1.8-branch/pyramid/traversal.py
- 
+
 .. $Id$
 """
 
@@ -24,10 +24,8 @@ try:
 except ImportError:  # pragma: no cover
     _segment_cache = {}
 
-try:
-    from webob.request import PATH_SAFE as PATH_SEGMENT_SAFE
-except ImportError:  # pragma: no cover
-    PATH_SEGMENT_SAFE = "/~!$&'()*+,;=:@"
+
+PATH_SEGMENT_SAFE = "~!$&'()*+,;=:@"
 
 
 def url_quote(val, safe=''):  # bw compat api
@@ -42,7 +40,7 @@ def url_quote(val, safe=''):  # bw compat api
 
 if six.PY2:
     def native_(s, encoding='latin-1', errors='strict'):
-        """ 
+        """
         If ``s`` is an instance of ``text_type``, return
         ``s.encode(encoding, errors)``, otherwise return ``str(s)``
         """
@@ -51,7 +49,7 @@ if six.PY2:
         return str(s)
 else:  # pragma: no cover
     def native_(s, encoding='latin-1', errors='strict'):
-        """ 
+        """
         If ``s`` is an instance of ``text_type``, return
         ``s``, otherwise return ``str(s, encoding, errors)``
         """
@@ -62,7 +60,7 @@ else:  # pragma: no cover
 
 if six.PY2:
     def quote_path_segment(segment, safe=PATH_SEGMENT_SAFE):
-        """ 
+        """
         Return a quoted representation of a 'path segment'
         """
         try:
@@ -76,7 +74,7 @@ if six.PY2:
             return result
 else:  # pragma: no cover
     def quote_path_segment(segment, safe=PATH_SEGMENT_SAFE):
-        """ 
+        """
         Return a quoted representation of a 'path segment'
         """
         try:
