@@ -12,9 +12,8 @@ import warnings
 
 import six
 
-from zope import component
-from zope import interface
-
+from zope.interface import implementer
+from zope.component import queryMultiAdapter
 from zope.container.traversal import ContainerTraversable as _ContainerTraversable
 
 from zope.location import LocationIterator
@@ -55,7 +54,6 @@ def resource_path(res):
     # It is probably also a bit slower.
     # Could probably use a __traceback_supplement__ for this
     _known_parents = []
-    __traceback_info__ = res, _known_parents  # pylint: disable=unused-variable
 
     # Ask for the parents; we do this instead of getPath() and url_quote
     # to work properly with unicode paths through the magic of pyramid
@@ -135,9 +133,6 @@ def find_nearest_site(context, root=None, ignore=None):
        the *ignore* parameter is deprecated. All of these things signal a broken
        resource tree.
     """
-    # pylint: disable=unused-variable
-    __traceback_info__ = context, getattr(context, '__parent__', None)
-
     try:
         loc_info = ILocationInfo(context)
     except TypeError:
@@ -176,8 +171,8 @@ def find_nearest_site(context, root=None, ignore=None):
     return nearest_site
 
 
-# pylint: disable=redefined-outer-name
-def find_interface(resource, interface, strict=True):
+
+def find_interface(resource, interface, strict=True): # pylint:disable=inconsistent-return-statements
     """
     Given an object, find the first object in its lineage providing
     the given interface.
@@ -189,9 +184,6 @@ def find_interface(resource, interface, strict=True):
     :keyword bool strict: Deprecated. Do not use. Non-strict
         lineage is broken lineage.
     """
-    # pylint: disable=unused-variable
-    __traceback_info__ = resource, interface
-
     if not strict:
         return _p_find_interface(resource, interface)
     # pylint: disable=too-many-function-args
@@ -200,12 +192,12 @@ def find_interface(resource, interface, strict=True):
     for item in lineage:
         if interface.providedBy(item):
             return item
-    return None
+
 
 
 def path_adapter(context, request, name=''):
-    return component.queryMultiAdapter((context, request), IPathAdapter,
-                                       name)
+    return queryMultiAdapter((context, request), IPathAdapter,
+                             name)
 
 
 class adapter_request(adapter):
@@ -241,7 +233,7 @@ class adapter_request(adapter):
         return result
 
 
-@interface.implementer(ITraversable)
+@implementer(ITraversable)
 class ContainerAdapterTraversable(_ContainerTraversable):
     """
     A :class:`ITraversable` implementation for containers that also
@@ -269,7 +261,7 @@ class ContainerAdapterTraversable(_ContainerTraversable):
             return adapted.traverse(key, remaining_path)
 
 
-@interface.implementer(ITraversable)
+@implementer(ITraversable)
 class DefaultAdapterTraversable(_DefaultTraversable):
     """
     A :class:`ITraversable` implementation for ordinary objects that also

@@ -36,7 +36,7 @@ def lineage(resource):
             resource = None
 
 
-def find_interface(resource, class_or_interface):
+def find_interface(resource, class_or_interface): # pylint:disable=inconsistent-return-statements
     """
     Search for an object implementing *class_or_interface* in the
     :func:`lineage` of the *resource*.
@@ -57,7 +57,7 @@ def find_interface(resource, class_or_interface):
     else:
         def test(arg):
             return isinstance(arg, class_or_interface)
+
     for location in lineage(resource):
         if test(location):
             return location
-    return None
