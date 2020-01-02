@@ -20,7 +20,7 @@ def _read(fname):
 
 setup(
     name='nti.traversal',
-    version='0.0.1',
+    version='0.0.2.dev0',
     author='Jason Madden',
     author_email='jason@nextthought.com',
     description="NTI Traversal",
