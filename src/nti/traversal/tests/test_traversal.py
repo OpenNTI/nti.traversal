@@ -6,6 +6,8 @@ __docformat__ = "restructuredtext en"
 
 # pylint: disable=protected-access,too-many-public-methods
 
+import unittest
+
 from hamcrest import is_
 from hamcrest import none
 from hamcrest import is_not
@@ -14,7 +16,6 @@ from hamcrest import has_property
 from hamcrest import contains_string
 
 import fudge
-import unittest
 
 import zope.testing.loghandler
 
@@ -24,6 +25,7 @@ from zope.location.interfaces import IRoot
 from zope.location.interfaces import ILocation
 from zope.location.interfaces import IContained
 from zope.location.interfaces import LocationError
+from zope.location.traversing import LocationPhysicallyLocatable
 
 from nti.traversal.traversal import path_adapter
 from nti.traversal.traversal import resource_path
@@ -171,15 +173,14 @@ class TestTraversal(unittest.TestCase):
 
         with self.assertRaises(TypeError):
             find_nearest_site(Leaf(), marker)
-    
-        from zope.location.traversing import LocationPhysicallyLocatable
+
         class Context(object):
             pass
         context = Context()
         # pylint: disable=attribute-defined-outside-init
         context.target = LocationPhysicallyLocatable(Leaf())
         assert_that(find_nearest_site(context, marker),
-                     is_(marker))
+                    is_(marker))
 
     @fudge.patch('nti.traversal.traversal.path_adapter')
     def test_default_traversable(self, mock_pa):

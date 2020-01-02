@@ -7,11 +7,11 @@ from __future__ import absolute_import
 
 # pylint: disable=protected-access,too-many-public-methods,inherit-non-class
 
+import unittest
+
 from hamcrest import is_
 from hamcrest import has_length
 from hamcrest import assert_that
-
-import unittest
 
 from zope import interface
 
@@ -75,6 +75,7 @@ class TestFindInterface(unittest.TestCase):
         return find_interface(context, iface)
 
     def test_it_interface(self):
+        # pylint:disable=blacklisted-name
         baz = DummyContext()
         bar = DummyContext(baz)
         foo = DummyContext(bar)
@@ -93,6 +94,6 @@ class TestFindInterface(unittest.TestCase):
         directlyProvides(root, IFoo)
         result = self._callFUT(baz, IFoo)
         self.assertEqual(result.__name__, 'root')
-        
+
         result = self._callFUT(baz, DummyContext)
         self.assertEqual(result.__name__, 'baz')

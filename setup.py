@@ -65,7 +65,7 @@ setup(
     extras_require={
         'test': TESTS_REQUIRE,
         'docs': [
-            'Sphinx',
+            'Sphinx >= 2.1',
             'repoze.sphinx.autointerface',
             'sphinx_rtd_theme',
         ]

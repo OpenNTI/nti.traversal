@@ -142,15 +142,15 @@ def find_nearest_site(context, root=None, ignore=None):
         loc_info = ILocationInfo(context)
     except TypeError:
         # Not adaptable (not located). What about the target?
-        warnings.warn(
-            "Relying on ``context.target`` is deprecated. "
-            "Register an ILocationInfo adapter for ``context`` instead.",
-            FutureWarning,
-            stacklevel=2
-        )
         try:
             # pylint: disable=too-many-function-args
             loc_info = ILocationInfo(context.target)
+            warnings.warn(
+                "Relying on ``context.target`` is deprecated. "
+                "Register an ILocationInfo adapter for ``context`` instead.",
+                FutureWarning,
+                stacklevel=2
+            )
             nearest_site = loc_info.getNearestSite()
         except (TypeError, AttributeError):
             # Nothing. Assume the main site/root
