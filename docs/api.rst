@@ -2,17 +2,20 @@
  Reference
 ===========
 
-Compat
-======
+.. testsetup::
 
-.. automodule:: nti.traversal.compat
-
-Location
-========
-
-.. automodule:: nti.traversal.location
+    import zope.component
+    from zope.traversing.interfaces import IPathAdapter
+    from zope.traversing.namespace import adapter
+    from zope.location.interfaces import LocationError
 
 Traversal
 =========
 
 .. automodule:: nti.traversal.traversal
+
+
+Location
+========
+
+.. automodule:: nti.traversal.location

@@ -1,12 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-.. $Id$
+Generic traversal functions (and adapters).
 """
 
 from __future__ import division
 from __future__ import print_function
 from __future__ import absolute_import
+
+import warnings
 
 import six
 
@@ -33,6 +35,18 @@ from nti.traversal.location import find_interface as _p_find_interface
 
 logger = __import__('logging').getLogger(__name__)
 
+__all__ = [
+    'resource_path',
+    'normal_resource_path',
+    'is_valid_resource_path',
+    'find_nearest_site',
+    'find_interface',
+    # TODO: The adapters should go in adapters.py
+    'path_adapter',
+    'adapter_request',
+    'ContainerAdapterTraversable',
+    'DefaultAdapterTraversable',
+]
 
 def resource_path(res):
     # This function is somewhat more flexible than Pyramid's, and
@@ -104,11 +118,22 @@ def is_valid_resource_path(target):
 
 def find_nearest_site(context, root=None, ignore=None):
     """
-    Find the nearest :class:`ISite` in the lineage of `context`.
-    :param context: The object whose lineage to search. If this object happens to
-            implement the interface specified by :param ignore,
-            then this attempts to take into account the target as well.
+    Find the nearest :class:`ISite` in the lineage of *context*.
+
+    :param context: The object whose lineage to search.
+        If this object cannot be adapted to `ILocationInfo`, then we attempt
+        to adapt ``context.target`` and get its site; failing that, we return the
+        *root*.
+    :param ignore: If the `ILocationInfo` of the *context* can be
+       retrieved, but the :meth:`.ILocationInfo.getNearestSite` cannot, then,
+       if *ignore* is given, and *context* provides that interface,
+       return the *root*. This makes no sense and is deprecated.
     :return: The nearest site. Possibly the root site.
+
+    .. deprecated:: 1.0
+       Relying on the fallback to ``context.target`` and *root* is deprecated;
+       the *ignore* parameter is deprecated. All of these things signal a broken
+       resource tree.
     """
     # pylint: disable=unused-variable
     __traceback_info__ = context, getattr(context, '__parent__', None)
@@ -117,6 +142,12 @@ def find_nearest_site(context, root=None, ignore=None):
         loc_info = ILocationInfo(context)
     except TypeError:
         # Not adaptable (not located). What about the target?
+        warnings.warn(
+            "Relying on ``context.target`` is deprecated. "
+            "Register an ILocationInfo adapter for ``context`` instead.",
+            FutureWarning,
+            stacklevel=2
+        )
         try:
             # pylint: disable=too-many-function-args
             loc_info = ILocationInfo(context.target)
@@ -134,6 +165,12 @@ def find_nearest_site(context, root=None, ignore=None):
             # Convertible, but not located correctly.
             if ignore is None or not ignore.providedBy(context):
                 raise
+            warnings.warn(
+                "The ignore argument is deprecated. "
+                "Register an appropriate ILocationInfo instead.",
+                FutureWarning,
+                stacklevel=2
+            )
             nearest_site = root
 
     return nearest_site
@@ -142,10 +179,15 @@ def find_nearest_site(context, root=None, ignore=None):
 # pylint: disable=redefined-outer-name
 def find_interface(resource, interface, strict=True):
     """
-    Given an object, find the first object in its lineage providing the given interface.
+    Given an object, find the first object in its lineage providing
+    the given interface.
 
-    This is similar to :func:`pyramid.traversal.find_interface`, but, as with :func:`resource_path`
-    requires the strict adherence to the resource tree, unless ``strict`` is set to ``False``
+    This is similar to :func:`nti.traversal.location.find_interface`,
+    but, as with :func:`resource_path` requires the strict adherence
+    to the resource tree, unless ``strict`` is set to ``False``.
+
+    :keyword bool strict: Deprecated. Do not use. Non-strict
+        lineage is broken lineage.
     """
     # pylint: disable=unused-variable
     __traceback_info__ = resource, interface
@@ -158,6 +200,7 @@ def find_interface(resource, interface, strict=True):
     for item in lineage:
         if interface.providedBy(item):
             return item
+    return None
 
 
 def path_adapter(context, request, name=''):

@@ -20,7 +20,7 @@ def _read(fname):
 
 setup(
     name='nti.traversal',
-    version=_read('version.txt').strip(),
+    version='0.0.1.dev0',
     author='Jason Madden',
     author_email='jason@nextthought.com',
     description="NTI Traversal",
@@ -36,10 +36,13 @@ setup(
         'Intended Audience :: Developers',
         'Natural Language :: English',
         'Operating System :: OS Independent',
+        'Development Status :: 3 - Alpha',
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: Implementation :: CPython',
         'Programming Language :: Python :: Implementation :: PyPy',
     ],

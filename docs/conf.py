@@ -36,7 +36,10 @@ rqmt = pkg_resources.require('nti.traversal')[0]
 # ones.
 extensions = [
     'sphinx.ext.autodoc',
+    'sphinx.ext.doctest',
     'sphinx.ext.intersphinx',
+    'sphinx.ext.todo',
+    'sphinx.ext.extlinks',
     'sphinx.ext.viewcode',
     'repoze.sphinx.autointerface',
 ]
@@ -55,7 +58,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'nti.traversal'
-copyright = u'2017, NextThought'
+copyright = u'2017 -- 2020, NextThought'
 author = u'NextThought'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -168,6 +171,12 @@ texinfo_documents = [
 intersphinx_mapping = {
     'https://docs.python.org/': None,
     'https://persistent.readthedocs.io/en/latest': None,
+    'https://pyramid.readthedocs.io/en/latest/': None,
+    'https://zopetraversing.readthedocs.io/en/latest/': None,
+    'https://zopesite.readthedocs.io/en/latest/': None,
+    'https://zopecomponent.readthedocs.io/en/latest/': None,
+    'https://zopeinterface.readthedocs.io/en/latest/': None,
+    'https://zopecontainer.readthedocs.io/en/latest/': None,
 }
 
 extlinks = {
@@ -176,6 +185,8 @@ extlinks = {
     'pr': ('https://github.com/NextThought/nti.traversal/pull/%s',
            'pull request #')}
 
-autodoc_default_flags = ['members', 'show-inheritance']
-autoclass_content = 'both'
-autodoc_member_order = 'bysource'
+autodoc_default_options = {
+    'members': True,
+    'show-inheritance': True,
+    'undoc-members': True,
+}

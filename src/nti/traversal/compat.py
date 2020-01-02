@@ -1,15 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""
-Code taken from https://github.com/Pylons/pyramid
-
-@see: https://github.com/Pylons/pyramid/blob/1.8-branch/pyramid/compat.py
-@see: https://github.com/Pylons/pyramid/blob/1.8-branch/pyramid/encode.py
-@see: https://github.com/Pylons/pyramid/blob/1.8-branch/pyramid/traversal.py
-
-.. $Id$
-"""
-
 from __future__ import division
 from __future__ import print_function
 from __future__ import absolute_import
@@ -91,4 +81,4 @@ else:  # pragma: no cover
 
 @lru_cache(1000)
 def join_path_tuple(t):
-    return t and '/'.join(quote_path_segment(x) for x in t) or '/'
+    return '/'.join(quote_path_segment(x) for x in t) if t else '/'

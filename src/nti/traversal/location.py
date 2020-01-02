@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-Code taken from https://github.com/Pylons/pyramid
+This module is deprecated. It contains functions that
+ignore errors in the location hierarchy. That can be a serious
+problem and must not be ignored.
 
-@see: https://github.com/Pylons/pyramid/blob/1.8-branch/pyramid/location.py
-
-.. $Id$
+Prefer the functions in :mod:`nti.traversal.traversal`.
 """
 
 from __future__ import division
@@ -18,6 +18,16 @@ logger = __import__('logging').getLogger(__name__)
 
 
 def lineage(resource):
+    """
+    Return all the parents of *resource*.
+
+    Deprecated, do not use.
+
+    .. deprecated:: 1.0
+       This doesn't use the :class:`zope.location.interfaces.ILocationInfo`
+       interface, and hence doesn't let the *resource* have customizations
+       and ignores problems in the resource tree.
+    """
     while resource is not None:
         yield resource
         try:
@@ -27,11 +37,27 @@ def lineage(resource):
 
 
 def find_interface(resource, class_or_interface):
+    """
+    Search for an object implementing *class_or_interface* in the
+    :func:`lineage` of the *resource*.
+
+    :param class_or_interface: Can be an interface or a
+       concrete class to check with :func:`isinstance`.
+
+
+    Deprecated, do not use.
+
+    .. deprecated:: 1.0
+       This doesn't use the :class:`zope.location.interfaces.ILocationInfo`
+       interface, and hence doesn't let the *resource* have customizations
+       and ignores problems in the resource tree.
+    """
     if IInterface.providedBy(class_or_interface):
         test = class_or_interface.providedBy
     else:
-        def test(arg): 
+        def test(arg):
             return isinstance(arg, class_or_interface)
     for location in lineage(resource):
         if test(location):
             return location
+    return None
