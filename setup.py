@@ -29,7 +29,7 @@ setup(
         + '\n\n'
         + _read("CHANGES.rst")
     ),
-    url="https://github.com/NextThought/nti.traversal",
+    url="https://github.com/OpenNTI/nti.traversal",
     license='Apache',
     keywords='Traversal',
     classifiers=[
@@ -37,6 +37,7 @@ setup(
         'Natural Language :: English',
         'Operating System :: OS Independent',
         'Development Status :: 3 - Alpha',
+        'License :: OSI Approved :: Apache Software License',
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
