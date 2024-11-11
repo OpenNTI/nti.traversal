@@ -3,10 +3,11 @@
 =========
 
 
-0.0.2 (unreleased)
+1.0.0 (unreleased)
 ==================
 
-- Nothing changed yet.
+- Drop support for Python < 3.10.
+- Use native namespace packages.
 
 
 0.0.1 (2020-01-02)

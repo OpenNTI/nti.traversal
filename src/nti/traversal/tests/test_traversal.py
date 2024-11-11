@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from __future__ import print_function, absolute_import, division
 __docformat__ = "restructuredtext en"
 
 # pylint: disable=protected-access,too-many-public-methods
 
 import unittest
+from unittest.mock import patch as Patch
 
 from hamcrest import is_
 from hamcrest import none
@@ -15,9 +15,7 @@ from hamcrest import assert_that
 from hamcrest import has_property
 from hamcrest import contains_string
 
-import fudge
 
-import zope.testing.loghandler
 
 from zope import interface
 
@@ -54,12 +52,12 @@ class TestTraversal(unittest.TestCase):
         @interface.implementer(ILocation)
         class Middle(object):
             __parent__ = Root()
-            __name__ = u'Middle'
+            __name__ = 'Middle'
 
         @interface.implementer(ILocation)
         class Leaf(object):
             __parent__ = Middle()
-            __name__ = u'\u2019'
+            __name__ = '\u2019'
 
         @interface.implementer(ILocation)
         class Invalid(object):
@@ -82,19 +80,20 @@ class TestTraversal(unittest.TestCase):
             resource_path(Invalid())
 
     def test_traversal_no_root(self):
-
+        from zope.testing.loggingsupport import InstalledHandler
         @interface.implementer(ILocation)
         class Middle(object):
             __parent__ = None
-            __name__ = u'Middle'
+            __name__ = 'Middle'
 
         @interface.implementer(ILocation)
         class Leaf(object):
             __parent__ = Middle()
-            __name__ = u'\u2019'
+            __name__ = '\u2019'
 
-        log_handler = zope.testing.loghandler.Handler(None)
-        log_handler.add('nti.traversal.traversal')
+        log_handler = InstalledHandler('nti.traversal.traversal')
+        self.addCleanup(log_handler.uninstall)
+
         try:
             with self.assertRaises(TypeError):
                 resource_path(Leaf())
@@ -105,19 +104,19 @@ class TestTraversal(unittest.TestCase):
         finally:
             log_handler.close()
 
-    @fudge.patch('nti.traversal.traversal.path_adapter')
+    @Patch('nti.traversal.traversal.path_adapter', autospec=True)
     def test_adapter_traversable(self, mock_pa):
-        mock_pa.is_callable().with_args().returns(None)
+        mock_pa.return_value = None
 
         @interface.implementer(IContained)
         class Root(object):
             __parent__ = None
-            __name__ = u'Root'
+            __name__ = 'Root'
 
         @interface.implementer(ILocation)
         class Middle(object):
             __parent__ = Root()
-            __name__ = u'Middle'
+            __name__ = 'Middle'
 
             def get(self, key, default=None):
                 if key == 'root':
@@ -127,7 +126,7 @@ class TestTraversal(unittest.TestCase):
         @interface.implementer(IContained)
         class Leaf(object):
             __parent__ = Middle()
-            __name__ = u'Leaf'
+            __name__ = 'Leaf'
 
         mid = Middle()
         c = ContainerAdapterTraversable(mid)
@@ -146,7 +145,7 @@ class TestTraversal(unittest.TestCase):
         with self.assertRaises(LocationError):
             c.traverse('leaf', '')
 
-        mock_pa.is_callable().with_args().returns(Leaf())
+        mock_pa.return_value = Leaf()
         assert_that(c.traverse('Leaf', ''),
                     is_(Leaf))
 
@@ -162,12 +161,12 @@ class TestTraversal(unittest.TestCase):
         @interface.implementer(ILocation)
         class Middle(object):
             __parent__ = None
-            __name__ = u'Middle'
+            __name__ = 'Middle'
 
         @interface.implementer(ILocation)
         class Leaf(object):
             __parent__ = Middle()
-            __name__ = u'\u2019'
+            __name__ = '\u2019'
         assert_that(find_nearest_site(Leaf(), marker, ignore=ILocation),
                     is_(marker))
 
@@ -182,7 +181,7 @@ class TestTraversal(unittest.TestCase):
         assert_that(find_nearest_site(context, marker),
                     is_(marker))
 
-    @fudge.patch('nti.traversal.traversal.path_adapter')
+    @Patch('nti.traversal.traversal.path_adapter', autospec=True)
     def test_default_traversable(self, mock_pa):
         @interface.implementer(IContained)
         class Root(object):
@@ -192,9 +191,9 @@ class TestTraversal(unittest.TestCase):
         @interface.implementer(ILocation)
         class Middle(object):
             __parent__ = Root()
-            __name__ = u'Middle'
+            __name__ = 'Middle'
 
-        mock_pa.is_callable().with_args().returns(Root())
+        mock_pa.return_value = Root()
         d = DefaultAdapterTraversable(Middle(), object())
         assert_that(d.traverse('Root', ''),
                     is_(Root))

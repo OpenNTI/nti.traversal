@@ -26,7 +26,7 @@ class TestCompat(unittest.TestCase):
         assert_that(url_quote('ichigo and azien'),
                     is_('ichigo%20and%20azien'))
 
-        assert_that(url_quote(u'ichigo and azien'),
+        assert_that(url_quote('ichigo and azien'),
                     is_('ichigo%20and%20azien'))
 
         assert_that(url_quote(b'ichigo and azien'),
@@ -40,10 +40,10 @@ class TestCompat(unittest.TestCase):
                     is_('ichigo%20and%20azien'))
 
     def test_native(self):
-        assert_that(native_(u'Ichigo', 'utf-8'),
+        assert_that(native_('Ichigo', 'utf-8'),
                     is_('Ichigo'))
         assert_that(native_(b'Ichigo', 'utf-8'),
-                    is_(u'Ichigo'))
+                    is_('Ichigo'))
 
     def test_quote_path_segment(self):
         assert_that(quote_path_segment('aizen'),
@@ -52,7 +52,7 @@ class TestCompat(unittest.TestCase):
         assert_that(quote_path_segment(b'ichigo'),
                     is_('ichigo'))
 
-        assert_that(quote_path_segment(u'ichigo'),
+        assert_that(quote_path_segment('ichigo'),
                     is_('ichigo'))
 
         class Bleach(object):
