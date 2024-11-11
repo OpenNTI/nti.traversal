@@ -66,7 +66,7 @@ setup(
             'Sphinx >= 2.1',
             'repoze.sphinx.autointerface',
             'sphinx_rtd_theme',
-        ]
+        ] + TESTS_REQUIRE,
     },
     entry_points=entry_points,
     python_requires=">=3.10",
