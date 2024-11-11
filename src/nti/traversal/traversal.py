@@ -4,13 +4,8 @@
 Generic traversal functions (and adapters).
 """
 
-from __future__ import division
-from __future__ import print_function
-from __future__ import absolute_import
-
 import warnings
-
-import six
+import logging
 
 from zope.interface import implementer
 from zope.component import queryMultiAdapter
@@ -32,7 +27,7 @@ from nti.traversal.compat import join_path_tuple
 
 from nti.traversal.location import find_interface as _p_find_interface
 
-logger = __import__('logging').getLogger(__name__)
+logger = logging.getLogger(__name__)
 
 __all__ = [
     'resource_path',
@@ -46,6 +41,7 @@ __all__ = [
     'ContainerAdapterTraversable',
     'DefaultAdapterTraversable',
 ]
+# pylint:disable=assignment-from-no-return
 
 def resource_path(res):
     # This function is somewhat more flexible than Pyramid's, and
@@ -109,9 +105,9 @@ def normal_resource_path(res):
 def is_valid_resource_path(target):
     # We really want to check if this is a valid HTTP URL path. How best to do that?
     # Not documented until we figure it out.
-    return isinstance(target, six.string_types) and (target.startswith('/') or
-                                                     target.startswith('http://') or
-                                                     target.startswith('https://'))
+    return isinstance(target, str) and (target.startswith('/') or
+                                        target.startswith('http://') or
+                                        target.startswith('https://'))
 
 
 def find_nearest_site(context, root=None, ignore=None):
@@ -207,7 +203,7 @@ class adapter_request(adapter):
     """
 
     def __init__(self, context, request=None):
-        super(adapter_request, self).__init__(context, request)
+        super().__init__(context, request)
         self.request = request
 
     def traverse(self, name, ignored):
@@ -217,13 +213,13 @@ class adapter_request(adapter):
 
         if result is None:
             # Look for the single-adapter. Or raise location error
-            result = super(adapter_request, self).traverse(name, ignored)
+            result = super().traverse(name, ignored)
 
         # Some sanity checks on the returned object
         # pylint: disable=unused-variable
         __traceback_info__ = result, self.context, result.__parent__, result.__name__
 
-        assert IContained.providedBy(result)
+        assert IContained.providedBy(result) # pylint:disable=no-value-for-parameter
         assert result.__parent__ is not None
 
         if result.__name__ is None:
@@ -248,13 +244,13 @@ class ContainerAdapterTraversable(_ContainerTraversable):
                        lambda self, nv: setattr(self, "_container", nv))
 
     def __init__(self, context, request=None):
-        super(ContainerAdapterTraversable, self).__init__(context)
+        super().__init__(context)
         self.context = context
         self.request = request
 
-    def traverse(self, key, remaining_path):  # pylint: disable=arguments-differ
+    def traverse(self, key, remaining_path):  # pylint: disable=arguments-renamed
         try:
-            return super(ContainerAdapterTraversable, self).traverse(key, remaining_path)
+            return super().traverse(key, remaining_path)
         except KeyError:
             # Is there a named path adapter?
             adapted = adapter_request(self.context, self.request)
@@ -273,13 +269,13 @@ class DefaultAdapterTraversable(_DefaultTraversable):
     """
 
     def __init__(self, context, request=None):
-        super(DefaultAdapterTraversable, self).__init__(context)
+        super().__init__(context)
         self.context = context
         self.request = request
 
-    def traverse(self, key, remaining_path):  # pylint: disable=arguments-differ
+    def traverse(self, key, remaining_path):  # pylint: disable=arguments-renamed
         try:
-            return super(DefaultAdapterTraversable, self).traverse(key, remaining_path)
+            return super().traverse(key, remaining_path)
         except KeyError:
             # Is there a named path adapter?
             adapted = adapter_request(self.context, self.request)

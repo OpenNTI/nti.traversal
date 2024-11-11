@@ -1,5 +1,6 @@
-import codecs
-from setuptools import setup, find_packages
+
+from setuptools import setup
+from setuptools import find_namespace_packages
 
 entry_points = {
     'console_scripts': [
@@ -7,14 +8,14 @@ entry_points = {
 }
 
 TESTS_REQUIRE = [
-    'fudge',
     'nti.testing',
     'zope.testrunner',
+    'coverage',
 ]
 
 
 def _read(fname):
-    with codecs.open(fname, encoding='utf-8') as f:
+    with open(fname, encoding='utf-8') as f:
         return f.read()
 
 
@@ -38,25 +39,21 @@ setup(
         'Operating System :: OS Independent',
         'Development Status :: 3 - Alpha',
         'License :: OSI Approved :: Apache Software License',
-        'Programming Language :: Python :: 2',
-        'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.6',
-        'Programming Language :: Python :: 3.7',
-        'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3 :: Only',
+        'Programming Language :: Python :: 3.10',
+        'Programming Language :: Python :: 3.11',
+        'Programming Language :: Python :: 3.12',
+        'Programming Language :: Python :: 3.13',
         'Programming Language :: Python :: Implementation :: CPython',
         'Programming Language :: Python :: Implementation :: PyPy',
     ],
     zip_safe=True,
-    packages=find_packages('src'),
+    packages=find_namespace_packages('src'),
     package_dir={'': 'src'},
     include_package_data=True,
-    namespace_packages=['nti'],
-    tests_require=TESTS_REQUIRE,
     install_requires=[
-        'setuptools',
         'repoze.lru',
-        'six',
         'zope.container',
         'zope.component',
         'zope.interface',
@@ -69,7 +66,8 @@ setup(
             'Sphinx >= 2.1',
             'repoze.sphinx.autointerface',
             'sphinx_rtd_theme',
-        ]
+        ] + TESTS_REQUIRE,
     },
     entry_points=entry_points,
+    python_requires=">=3.10",
 )

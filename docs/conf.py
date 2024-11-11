@@ -165,19 +165,20 @@ texinfo_documents = [
 ]
 
 
-
-
-# Example configuration for intersphinx: refer to the Python standard library.
-intersphinx_mapping = {
-    'https://docs.python.org/': None,
-    'https://persistent.readthedocs.io/en/latest': None,
-    'https://pyramid.readthedocs.io/en/latest/': None,
-    'https://zopetraversing.readthedocs.io/en/latest/': None,
-    'https://zopesite.readthedocs.io/en/latest/': None,
-    'https://zopecomponent.readthedocs.io/en/latest/': None,
-    'https://zopeinterface.readthedocs.io/en/latest/': None,
-    'https://zopecontainer.readthedocs.io/en/latest/': None,
+intersphinx_mapping =  {
+    'component': ('https://zopecomponent.readthedocs.io/en/latest/', None),
+    'container': ('https://zopecontainer.readthedocs.io/en/latest/', None,),
+    'i18n': ('https://zopei18nmessageid.readthedocs.io/en/latest/', None),
+    'interface': ('https://zopeinterface.readthedocs.io/en/latest/', None),
+    'persistent': ('https://persistent.readthedocs.io/en/latest', None),
+    'python': ('https://docs.python.org/', None),
+    'schema': ('https://zopeschema.readthedocs.io/en/latest/', None),
+    'site': ('https://zopesite.readthedocs.io/en/latest/', None,),
+    'testing': ('https://ntitesting.readthedocs.io/en/latest/', None),
+    'traversing': ('https://zopetraversing.readthedocs.io/en/latest/', None),
+    'zodb': ('http://www.zodb.org/en/latest/', None),
 }
+
 
 extlinks = {
     'issue': ('https://github.com/NextThought/nti.traversal/issues/%s',
