@@ -8,7 +8,7 @@
 	<include package="zope.component" />
 
 	<include package="zope.location" />
-	<include package="zope.container" />
+	<include package="zope.container" zcml:condition="installed zope.container" />
 	<include package="zope.traversing" />
 
 </configure>

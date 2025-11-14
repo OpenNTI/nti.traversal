@@ -9,7 +9,6 @@ import logging
 
 from zope.interface import implementer
 from zope.component import queryMultiAdapter
-from zope.container.traversal import ContainerTraversable as _ContainerTraversable
 
 from zope.location import LocationIterator
 
@@ -42,6 +41,36 @@ __all__ = [
     'DefaultAdapterTraversable',
 ]
 # pylint:disable=assignment-from-no-return
+
+try:
+    from zope.container.traversal import ContainerTraversable as _ContainerTraversable
+except ModuleNotFoundError:
+    from zope.traversing.interfaces import TraversalError
+    _marker = object()
+    @implementer(ITraversable)
+    class _ContainerTraversable:
+        """Traverses containers via `getattr` and `get`."""
+
+        def __init__(self, container):
+            self._container = container
+
+        def traverse(self, name, furtherPath): # pylint: disable=unused-argument
+            container = self._container
+
+            v = container.get(name, _marker)
+            if v is _marker:
+                try:
+                    # Note that if name is a unicode string, getattr will
+                    # implicitly try to encode it using the system
+                    # encoding (usually ascii). Failure to encode means
+                    # invalid attribute name.
+                    v = getattr(container, name, _marker)
+                except UnicodeEncodeError:
+                    raise TraversalError(container, name) from None
+                if v is _marker:
+                    raise TraversalError(container, name)
+
+            return v
 
 def resource_path(res):
     # This function is somewhat more flexible than Pyramid's, and

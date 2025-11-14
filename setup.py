@@ -41,10 +41,10 @@ setup(
         'License :: OSI Approved :: Apache Software License',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3 :: Only',
-        'Programming Language :: Python :: 3.10',
-        'Programming Language :: Python :: 3.11',
         'Programming Language :: Python :: 3.12',
         'Programming Language :: Python :: 3.13',
+        'Programming Language :: Python :: 3.13',
+        'Programming Language :: Python :: 3.14',
         'Programming Language :: Python :: Implementation :: CPython',
         'Programming Language :: Python :: Implementation :: PyPy',
     ],
@@ -54,7 +54,6 @@ setup(
     include_package_data=True,
     install_requires=[
         'repoze.lru',
-        'zope.container',
         'zope.component',
         'zope.interface',
         'zope.location',
@@ -62,6 +61,9 @@ setup(
     ],
     extras_require={
         'test': TESTS_REQUIRE,
+        'zodb': [
+            'zope.container',
+        ],
         'docs': [
             'Sphinx >= 2.1',
             'repoze.sphinx.autointerface',
@@ -69,5 +71,5 @@ setup(
         ] + TESTS_REQUIRE,
     },
     entry_points=entry_points,
-    python_requires=">=3.10",
+    python_requires=">=3.12",
 )

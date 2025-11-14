@@ -3,10 +3,12 @@
 =========
 
 
-1.0.1 (unreleased)
+1.1.0 (unreleased)
 ==================
 
-- Nothing changed yet.
+- Add support for Python 3.14.
+- Remove support for Python < 3.12.
+- Move ``zope.container`` to the new "zodb" extra.
 
 
 1.0.0 (2024-11-11)
