@@ -21,7 +21,7 @@ def _read(fname):
 
 setup(
     name='nti.traversal',
-    version='1.2.0',
+    version='1.2.1.dev0',
     author='Jason Madden',
     author_email='jason@nextthought.com',
     description="NTI Traversal",
